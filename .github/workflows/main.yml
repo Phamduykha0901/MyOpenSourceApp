@@ -13,7 +13,7 @@ jobs:
       - name: Chạy script kiểm tra
         run: echo "Mã nguồn đã được tải thành công lên Ubuntu!"
 
-      - name: Kiểm tra Linter HTML (Kiểm tra thẻ title)
+            - name: Kiểm tra Linter HTML (Kiểm tra thẻ title)
         run: |
           if grep -q "<title>" index.html; then
             echo "Linter Passed: Tồn tại thẻ title."
@@ -21,6 +21,14 @@ jobs:
             echo "Linter Failed: Thiếu thẻ title."
             exit 1
           fi
+
+      - name: In thử Secret Key
+        env:
+          API_KEY: ${{ secrets.MY_SECRET_API_KEY }}
+        run: echo "The API Key used for deployment is $API_KEY"
+
+  deploy:
+    needs: build
 
   deploy:
     needs: build
